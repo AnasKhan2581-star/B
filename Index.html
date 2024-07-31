@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are You My GF?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: red;
+            font-family: 'Helvetica', sans-serif;
+            color: white;
+            text-align: center;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #message, #finalMessage {
+            display: none;
+            white-space: pre-wrap;
+        }
+        .fade-out {
+            animation: fadeOut 1s forwards;
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 2s forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .typing {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid white;
+            animation: typing 1s steps(15), blink-caret .75s step-end infinite;
+        }
+        .typing-done {
+            animation: none;
+            border-right: none;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: white;
+            color: red;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 id="question">Are you my gf?</h1>
+        <button onclick="handleClick(true)">Yes</button>
+        <button onclick="handleClick(false)">No</button>
+        <div id="message"></div>
+        <div id="finalMessage"></div>
+    </div>
+    <script>
+        function handleClick(isYes) {
+            document.getElementById('question').classList.add('fade-out');
+            document.querySelector('button:nth-child(2)').classList.add('fade-out');
+            document.querySelector('button:nth-child(3)').classList.add('fade-out');
+
+            setTimeout(() => {
+                document.querySelectorAll('button').forEach(button => button.style.display = 'none');
+                document.getElementById('question').style.display = 'none';
+
+                let message = document.getElementById('message');
+                let finalMessage = document.getElementById('finalMessage');
+
+                if (isYes) {
+                    message.innerHTML = '<span class="typing">Yessss you are not</span>';
+                    finalMessage.innerHTML = ' just my gf you are literally my everything my cutu my lifeee my jaan my baby my support system my hope my bestfriend my peace my future wife inshaAllah';
+                } else {
+                    message.innerHTML = '<span class="typing">No you are not</span>';
+                    finalMessage.innerHTML = ' just my gf you are literally my everything my cutu my lifeee my jaan my baby my support system my hope my bestfriend my peace my future wife inshaAllah';
+                }
+
+                message.style.display = 'block';
+
+                setTimeout(() => {
+                    let typingDone = document.querySelector('.typing');
+                    typingDone.classList.remove('typing');
+                    typingDone.classList.add('typing-done');
+
+                    setTimeout(() => {
+                        finalMessage.style.display = 'inline-block';
+                        typeWriter(finalMessage.innerHTML, finalMessage, 0, 50);
+                    }, 3000);
+                }, 1000);
+            }, 1000);
+        }
+
+        function typeWriter(text, element, index, speed) {
+            if (index < text.length) {
+                element.innerHTML = text.substring(0, index + 1);
+                setTimeout(() => {
+                    typeWriter(text, element, index + 1, speed);
+                }, speed);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('container').classList.add('fade-out');
+                    setTimeout(() => {
+                        document.getElementById('container').style.display = 'none';
+                        let loveMessage = document.createElement('h1');
+                        loveMessage.innerHTML = 'I LOVE YOU <span style="font-size: 48px;">❤️</span>';
+                        loveMessage.classList.add('fade-in');
+                        document.body.appendChild(loveMessage);
+                    }, 1000);
+                }, 8000);
+            }
+        }
+    </script>
+</body>
+</html>
